@@ -8,7 +8,9 @@ export default function HighScores() {
     <section className="high-scores">
       <h2>High Scores</h2>
 
-      <section className="scores">{scores}</section>
+      <section className="scores">
+        {highScores.length === 0 ? <p>None yet... Play the game!</p> : scores}
+      </section>
     </section>
   );
 }

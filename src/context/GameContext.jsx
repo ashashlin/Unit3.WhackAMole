@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useRef, useEffect } from "react";
 
 const numOfHoles = 9;
 let lastRandomIndex;
@@ -7,10 +7,26 @@ const GameContext = createContext();
 
 export function GameContextProvider({ children }) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [randomIndex, setRandomIndex] = useState(null);
   const [score, setScore] = useState(0);
   const [highScores, setHighScores] = useState([]);
+  const [time, setTime] = useState(15);
+  const timerRef = useRef(null);
+
+  const field = Array.from({ length: numOfHoles }, (_, i) => ({
+    id: i + 1,
+  }));
+
+  useEffect(() => {
+    if (time === 0) {
+      restartGame();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [time]);
 
   function startGame() {
+    generateRandomIndex();
+    startTimer();
     setIsPlaying(true);
   }
 
@@ -18,6 +34,18 @@ export function GameContextProvider({ children }) {
     saveTheScore();
     setScore(0);
     setIsPlaying(false);
+  }
+
+  function generateRandomIndex() {
+    setRandomIndex(() => {
+      let randomIndex = Math.floor(Math.random() * numOfHoles);
+      while (randomIndex === lastRandomIndex) {
+        randomIndex = Math.floor(Math.random() * numOfHoles);
+      }
+      lastRandomIndex = randomIndex;
+
+      return randomIndex;
+    });
   }
 
   function increaseScore() {
@@ -28,16 +56,16 @@ export function GameContextProvider({ children }) {
     setHighScores((prevHighScores) => [...prevHighScores, score]);
   }
 
-  const field = Array.from({ length: numOfHoles }, (_, i) => ({
-    id: i + 1,
-  }));
+  function startTimer() {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      setTime(15);
+    }
 
-  // Make sure the random index of the current hole for the mole is different from the last random index
-  let randomIndex = Math.floor(Math.random() * numOfHoles);
-  while (randomIndex === lastRandomIndex) {
-    randomIndex = Math.floor(Math.random() * numOfHoles);
+    timerRef.current = setInterval(() => {
+      setTime((prevTime) => prevTime - 1);
+    }, 1000);
   }
-  lastRandomIndex = randomIndex;
 
   const value = {
     isPlaying,
@@ -45,9 +73,11 @@ export function GameContextProvider({ children }) {
     restartGame,
     field,
     randomIndex,
+    generateRandomIndex,
     score,
     increaseScore,
     highScores,
+    time,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
