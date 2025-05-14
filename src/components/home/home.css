@@ -1,0 +1,24 @@
+.home {
+  text-align: center;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+.welcome {
+  margin-bottom: 0.4rem;
+}
+
+.play-game {
+  width: 15rem;
+  padding: 0.2rem 0;
+  background-color: transparent;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.8rem;
+  transition: background-color 150ms;
+}
+
+.play-game:hover {
+  background-color: #d3d3d364;
+}

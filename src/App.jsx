@@ -1,3 +1,8 @@
+import Home from "./components/home/Home";
+import Game from "./components/game/Game";
+
 export default function App() {
-  return <></>;
+  const isPlaying = false;
+
+  return <>{!isPlaying ? <Home /> : <Game />}</>;
 }
