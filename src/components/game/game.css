@@ -1,0 +1,45 @@
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scoreboard {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  width: 33rem;
+  font-family: monospace;
+}
+
+.scoreboard-item {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.1rem 0;
+  border: 1px solid grey;
+}
+
+.restart-game {
+  background-color: transparent;
+}
+
+.game-field {
+  display: grid;
+  grid-template-columns: repeat(3, 8.625rem);
+  grid-template-rows: repeat(3, 7rem);
+  gap: 1rem;
+}
+
+.hole {
+  background: url("/hole.png") no-repeat center/contain;
+}
+
+.mole {
+  background-image: url("/mole.png");
+}
+
+.hole.mole {
+  cursor: pointer;
+}

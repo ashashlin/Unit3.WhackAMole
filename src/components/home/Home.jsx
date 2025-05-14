@@ -1,6 +1,9 @@
+import { useGame } from "../../context/GameContext";
 import "./home.css";
 
 export default function Home() {
+  const { startGame } = useGame();
+
   return (
     <section className="home">
       <h1>Whack a Mole</h1>
@@ -11,7 +14,9 @@ export default function Home() {
         <p>How many can you get?</p>
       </section>
 
-      <button className="btn play-game">Play</button>
+      <button className="btn play-game" onClick={startGame}>
+        Play
+      </button>
 
       {/* <section className="high-scores">
         <h2>High Scores</h2>
